@@ -1,16 +1,18 @@
 #!/bin/sh
 
-image_name=creativeprojects/php-ci
+image_name=creativeprojects/php-git-ci
 image_versions="5.6 7.0 7.1 7.2"
 
 cd $(dirname "${0}")
+
+git pull
 
 for image_version in ${image_versions}; do
     echo Downloading php:${image_version}
     docker pull php:${image_version}
 
-    # docker rmi ${image_name}:${image_version}
-    # docker rmi ${image_name}:latest
+    docker rmi ${image_name}:${image_version}
+    docker rmi ${image_name}:latest
 
     echo Building image ${image_name}:${image_version}
     docker build -t ${image_name}:${image_version} \
